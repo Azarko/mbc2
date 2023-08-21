@@ -29,11 +29,16 @@ $(document).ready(function () {
       type: "POST",
       url: "/party-calc/calculate",
       async: false,
-      data: JSON.stringify({ members: [{name: "Vasya", paid: 100}]},),
+      data: JSON.stringify(
+        { members: [
+          {name: "Vasya", paid: 100},
+          {name: "Petya", paid: 50},
+          ],
+        },
+      ),
       contentType: "application/json",
     }).done(function (data) {
       console.log(data);
-      alert(data);
     });
 
     event.preventDefault();
