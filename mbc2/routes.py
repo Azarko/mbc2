@@ -1,6 +1,6 @@
+from mbc2.handlers.ajax import calculate
 from mbc2.handlers.web import index
 from mbc2.handlers.web import party_calc
-from mbc2.handlers.ajax import party_calc_calculate
 
 
 def setup_routes(app):
@@ -9,6 +9,6 @@ def setup_routes(app):
 
     app.router.add_post(
         '/party-calc/calculate',
-        party_calc_calculate.handler,
+        calculate.handler,
         name='party_calc_calculate',
     )
