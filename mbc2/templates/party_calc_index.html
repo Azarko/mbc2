@@ -1,48 +1,10 @@
 {%- extends "base.html" %}
 {%- block body %}
 Party calculator
-<form id="calculate">
-  <button type="submit" class="btn btn-primary mb-3">Calculate</button>
-  <button type="button" class="btn btn-success mb-3">Add</button>
-  <div class="row" id="member_1">
-    <div class="col-auto">
-      <label for="member_name_1" class="visually-hidden">Name</label>
-      <input type="text" class="form-control" id="member_name_1" placeholder="Name">
-    </div>
-    <div class="col-auto">
-      <label for="member_paid_1" class="visually-hidden">Paid</label>
-      <input type="text" class="form-control" id="member_paid_1" placeholder="Paid">
-    </div>
-    <div class="col-auto">
-      <button type="button" class="btn btn-danger mb-3" id="delete_member_1">Del</button>
-    </div>
-
-  </div>
-
+<form id="calculate-form">
+  <button type="submit" class="btn btn-primary mb-3" id="calculate-button">Calculate</button>
+  <button type="button" class="btn btn-success mb-3" id="add-button">Add</button>
 </form>
 
-<script>
-$(document).ready(function () {
-  $("form").submit(function (event) {
-
-    $.ajax({
-      type: "POST",
-      url: "/party-calc/calculate",
-      async: false,
-      data: JSON.stringify(
-        { members: [
-          {name: "Vasya", paid: 100},
-          {name: "Petya", paid: 50},
-          ],
-        },
-      ),
-      contentType: "application/json",
-    }).done(function (data) {
-      console.log(data);
-    });
-
-    event.preventDefault();
-  });
-});
-</script>
+<script src="static/js/calculator.js"></script>
 {%- endblock body %}
