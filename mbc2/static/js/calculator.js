@@ -12,10 +12,14 @@ function add_member() {
       </div>
       <div class="col-auto">
         <label for="member-paid-${member_index}" class="visually-hidden">Paid</label>
-        <input type="text" class="form-control" id="member-paid-${member_index}" placeholder="Paid" value=0.0>
+        <input type="number" step=".01" class="form-control" id="member-paid-${member_index}" type="number" placeholder="Paid" value=0>
       </div>
       <div class="col-auto">
-        <button type="button" class="btn btn-danger mb-3" id="delete-member-${member_index}">Del</button>
+        <label for="member-need-to-pay-${member_index}" class="visually-hidden">Paid</label>
+        <input type="text" class="form-control" id="member-need-to-pay-${member_index}" placeholder="Need to pay" disabled>
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-danger mb-3 btn-sm" id="delete-member-${member_index}">Del</button>
       </div>
     </div>
   `);
@@ -63,9 +67,18 @@ $("#calculate-form").submit(function (event) {
     url: '/party-calc/calculate',
     async: false,
     data: JSON.stringify({ 'members': data_array }),
+    dataType: 'json',
     contentType: 'application/json',
   }).done(function (data) {
     console.log(data);
-  });
+  }).fail(function (data) {
+    if (data.status == 400 && data.responseJSON.code == 'VALIDATION_ERROR') {
+        alert(data.responseJSON.message);
+    } else if (data.status >= 500) {
+        alert('something went wrong on server side =(');
+    };
+    console.log(data);
+  })
+  ;
   event.preventDefault();
 });
