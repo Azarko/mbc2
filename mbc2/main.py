@@ -13,7 +13,7 @@ TEMPLATES_DIR = os.path.join(BASE_PATH, 'templates')
 TEMPLATES_LOADER = jinja2.FileSystemLoader(TEMPLATES_DIR)
 
 
-def create_app() -> web.Application:
+async def create_app() -> web.Application:
     logging.basicConfig(level=logging.INFO)
     app = web.Application(middlewares=[middlewares.catch_validation_error])
     aiohttp_jinja2.setup(app, enable_async=True, loader=TEMPLATES_LOADER)
