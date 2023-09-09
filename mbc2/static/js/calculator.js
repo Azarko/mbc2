@@ -39,9 +39,31 @@ function get_form_data() {
   return data_array;
 }
 
+// disable/enable main interface of calculator
+function switch_state(state) {
+    $("#calculate-button").prop("disabled", state);
+    $("#add-button").prop("disabled", state);
+    $("button[id^='delete-member-']").prop('disabled', state);
+    $("input[id^='member-name-']").prop('disabled', state);
+    $("input[id^='member-paid-']").prop('disabled', state);
+    $("#edit-button").prop("disabled", !state);
+}
+
+// add values to need-to-pay inputs or reset their values if data is undefined
+function fill_need_to_pay(data) {
+    $('input[id^=member-need-to-pay-]').map(function (index, element) {
+        if (data == undefined) {
+            value = '';
+        } else {
+            value = data[index]['need_to_pay'];
+        }
+        $(this).val(value);
+    });
+}
+
 add_member();  // add first initial row in the form
 
-// ------
+// ------------------
 // event listeners
 
 // click on "Add" button
@@ -50,13 +72,11 @@ $("#add-button").click(function (event) {
   event.preventDefault();
 });
 
-
 // click on any of "Del" buttons
 // event listener on body to attach to all further dynamically added elements
 $("body").on('click', "button[id^='delete-member-']", function() {
   $(this).parent().parent().remove();
 });
-
 
 // submit form (Calculate button)
 $("#calculate-form").submit(function (event) {
@@ -70,7 +90,8 @@ $("#calculate-form").submit(function (event) {
     dataType: 'json',
     contentType: 'application/json',
   }).done(function (data) {
-    console.log(data);
+    switch_state(true);
+    fill_need_to_pay(data['members']);
   }).fail(function (data) {
     if (data.status == 400 && data.responseJSON.code == 'VALIDATION_ERROR') {
         alert(data.responseJSON.message);
@@ -81,4 +102,10 @@ $("#calculate-form").submit(function (event) {
   })
   ;
   event.preventDefault();
+});
+
+// click on "edit" button
+$("#edit-button").on('click', function() {
+    switch_state(false);
+    fill_need_to_pay();
 });
