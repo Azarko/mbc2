@@ -5,22 +5,17 @@ var member_index = 1;
 // add new row in calculator form and increment member_index
 function add_member() {
   var $row = $(`
-    <div class="row" id="member-row-${member_index}">
-      <div class="col-auto">
-        <label for="member-name-${member_index}" class="visually-hidden">Name</label>
-        <input type="text" class="form-control" id="member-name-${member_index}" placeholder="Name" value="member_${member_index}">
-      </div>
-      <div class="col-auto">
-        <label for="member-paid-${member_index}" class="visually-hidden">Paid</label>
-        <input type="number" step=".01" class="form-control" id="member-paid-${member_index}" type="number" placeholder="Paid" value=0>
-      </div>
-      <div class="col-auto">
-        <label for="member-need-to-pay-${member_index}" class="visually-hidden">Paid</label>
-        <input type="text" class="form-control" id="member-need-to-pay-${member_index}" placeholder="Need to pay" disabled>
-      </div>
-      <div class="col-auto">
-        <button type="button" class="btn btn-danger mb-3 btn-sm" id="delete-member-${member_index}">Del</button>
-      </div>
+    <div class="input-group mb-1" id="member-row-${member_index}" style="max-width: 800px;">
+      <label for="member-name-${member_index}" class="visually-hidden">Name</label>
+      <input type="text" class="form-control me-2" id="member-name-${member_index}" placeholder="Name" value="member_${member_index}">
+
+      <label for="member-paid-${member_index}" class="visually-hidden">Paid</label>
+      <input type="number" step=".01" class="form-control me-2" id="member-paid-${member_index}" type="number" placeholder="Paid" value=0>
+
+      <label for="member-need-to-pay-${member_index}" class="visually-hidden">Paid</label>
+      <input type="text" class="form-control me-2" id="member-need-to-pay-${member_index}" placeholder="Need to pay" disabled>
+
+      <button type="button" class="btn btn-danger" id="delete-member-${member_index}">Del</button>
     </div>
   `);
   $('#calculate-form').append($row);
@@ -75,7 +70,7 @@ $("#add-button").click(function (event) {
 // click on any of "Del" buttons
 // event listener on body to attach to all further dynamically added elements
 $("body").on('click', "button[id^='delete-member-']", function() {
-  $(this).parent().parent().remove();
+  $(this).parent().remove();
 });
 
 // submit form (Calculate button)
