@@ -15,7 +15,12 @@ TEMPLATES_LOADER = jinja2.FileSystemLoader(TEMPLATES_DIR)
 
 async def create_app() -> web.Application:
     logging.basicConfig(level=logging.INFO)
-    app = web.Application(middlewares=[middlewares.catch_validation_error])
+    app = web.Application(
+        middlewares=[
+            middlewares.catch_validation_error,
+            middlewares.ajax_csrf_token,
+        ],
+    )
     aiohttp_jinja2.setup(app, enable_async=True, loader=TEMPLATES_LOADER)
     routes.setup_routes(app)
     return app
