@@ -5,7 +5,7 @@ var member_index = 1;
 // add new row in calculator form and increment member_index
 function add_member() {
   var $row = $(`
-    <div class="input-group mb-1" id="member-row-${member_index}" style="max-width: 800px;">
+    <div class="input-group mb-1" id="member-row-${member_index}">
       <label for="member-name-${member_index}" class="visually-hidden">Name</label>
       <input type="text" class="form-control me-2" id="member-name-${member_index}" placeholder="Name" value="member_${member_index}">
 
@@ -42,6 +42,8 @@ function switch_state(state) {
     $("input[id^='member-name-']").prop('disabled', state);
     $("input[id^='member-paid-']").prop('disabled', state);
     $("#edit-button").prop("disabled", !state);
+    $("#clear-button").prop("disabled", state);
+    $("#reset-button").prop("disabled", state);
 }
 
 // add values to need-to-pay inputs or reset their values if data is undefined
@@ -103,4 +105,32 @@ $("#calculate-form").submit(function (event) {
 $("#edit-button").on('click', function() {
     switch_state(false);
     fill_need_to_pay();
+});
+
+// click on "clear" button (activate modal)
+$('#clear-button').on('click', function() {
+    $('#clear-modal').modal('toggle');
+});
+
+// click in "clear" button
+$('#clear-confirm-button').on('click', function() {
+    $('input[id^=member-paid-]').map(function (index, element) {
+        $(this).val(0);
+    });
+    $('#clear-modal').modal('toggle');
+});
+
+// click on "reset" button (activate modal)
+$('#reset-button').on('click', function() {
+    $('#reset-modal').modal('toggle');
+});
+
+// click in "reset" confirm button (erase form and deactivate modal)
+$('#reset-confirm-button').on('click', function() {
+    $('div[id^=member-row-]').map(function (index, element) {
+        $(this).remove();
+    });
+    member_index = 1;
+    add_member();
+    $('#reset-modal').modal('toggle');
 });
