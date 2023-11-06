@@ -47,7 +47,6 @@ class Response(marshmallow.Schema, MembersBase):
 
 
 async def handler(request: web.Request) -> web.Response:
-    # TODO: add csrf
     data = await request.json()
     members_dc: models.Members = Request().load(data)
 
